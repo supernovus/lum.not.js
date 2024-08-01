@@ -3,6 +3,7 @@
 const plan = 9; // from outer space
 const t = require('@lumjs/tests').new({module, plan});
 const NoT = require('../lib');
+const ts = require('./inc/common');
 
 let nt = new NoT();
 
@@ -48,12 +49,7 @@ nt.compile({id: 'test3', tmpl});
 
 let data = 
 {
-  user:
-  {
-    name: "Tim",
-    age: 45,
-    job: "geek",
-  },
+  user: ts.set_1.users[0],
 }
 
 t.is(nt.render('test3', data), 
