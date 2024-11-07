@@ -6,10 +6,6 @@ and John Resig's simple micro-templating.
 Doesn't have many features, and relies on external functions and libraries
 for many things like escaping, encoding, [filtering] of XSS/evil-code, etc.
 
-Due to the extreme limitations of this implementation, you should probably
-use a more well-developed template engine. This is a "for fun" kind of thing,
-and really shouldn't be used in anything serious.
-
 ## Template Syntax
 
 The default syntax is pretty simple, and intentionally quite limited.

@@ -1,28 +1,32 @@
 {
   "name": "@lumjs/not",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "lib/index.js",
   "exports":
   {
     ".": "./lib/index.js",
     "./package.json": "./package.json"
   },
-  "license": "MIT",
+  "dependencies": 
+  {
+    "@lumjs/core": "^1.37.1"
+  },
+  "devDependencies":
+  {
+    "@lumjs/build": "^1.1.0",
+    "@lumjs/tests": "^2.0.0"
+  },
+  "scripts":
+  {
+    "test": "lumtest.js",
+    "build-meta": "lum-build",
+    "build-jsdoc": "jsdoc -c ./jsdoc.js",
+    "build-docs": "npm run build-meta && npm run build-jsdoc"
+  },
   "repository":
   {
     "type": "git",
     "url": "https://github.com/supernovus/lum.not.js.git"
   },
-  "dependencies": {
-    "@lumjs/core": "^1.26.0"
-  },
-  "devDependencies":
-  {
-    "@lumjs/tests": "^1.8.2"
-  },
-  "scripts":
-  {
-    "test": "lumtest.js",
-    "build-docs": "jsdoc -c ./jsdoc.json"
-  }
+  "license": "MIT"
 }

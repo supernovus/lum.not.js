@@ -3,6 +3,7 @@
 const plan = 9; // from outer space
 const t = require('@lumjs/tests').new({module, plan});
 const NoT = require('../lib');
+const {PS} = require('../lib/rules');
 const ts = require('./inc/common');
 
 let nt = new NoT();
@@ -33,13 +34,13 @@ t.is(nt.render(tmpl),
   'Goodbye ', 
   'implicitly compiled with no values');
 
-let tdef1 = nt.$tmpl[tmpl];
+let tdef1 = nt.get(tmpl);
 
 t.is(nt.render(tmpl, {friend: 'cruel world'}), 
   'Goodbye cruel world', 
   'implicitly compiled with specified value');
 
-let tdef2 = nt.$tmpl[tmpl];
+let tdef2 = nt.get(tmpl);
 
 t.is(tdef1, tdef2, 'implicit templates use cached instance');
 
@@ -56,7 +57,7 @@ t.is(nt.render('test3', data),
   'Meet Tim, a capable geek.',
   'multiple assignments');
 
-t.is(Object.keys(nt.$tmpl).length, 4, 
+t.is(nt[PS.templates].size, 4, 
   'correct number of cached templates');
 
 t.done();
