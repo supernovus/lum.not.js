@@ -6,7 +6,7 @@ const NoT = require('../lib');
 const {PS} = require('../lib/rules');
 const ts = require('./inc/common');
 
-let nt = new NoT();
+let nt = new NoT.Engine();
 
 let tmpl = "Hello {{it.name ?? 'World'}}, how are you?";
 nt.compile({id: 'test', tmpl});

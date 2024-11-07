@@ -1,10 +1,30 @@
 # lum.not.js
 
-A tiny proof-of-concept template engine; inspired by `doT`, `riot.tmpl`, 
-and John Resig's simple micro-templating.
+A tiny proof-of-concept template engine; inspired by [doT], the `tmpl`
+library from [riot.js], and John Resig's simple [micro-templating].
 
 Doesn't have many features, and relies on external functions and libraries
 for many things like escaping, encoding, [filtering] of XSS/evil-code, etc.
+
+The only escaping it does is extremely rudimentary and offer no protection
+against attacks. I'd advise to never use this engine in a place where any
+untrusted end-users can interact with them!
+
+## API Features
+
+- Has no concept of _files_ and no built-in ability to work with
+  anything other than plain string templates passed to the engine.
+  This may seem like a limitation, but it is an intentional design choice!
+- Can be used in a server-side runtime like Node.js, or in a client-side 
+  web browser (after building a bundle with something like [Webpack]).
+- The engine compiles templates into JS functions, then caches them.
+- The render() method simply passes a data object to a compiled template.
+  Okay, there's a bit more to it, but that's the basic concept anyway.
+- Has many optional _hook_ callback functions to process the templates at
+  various points in the compiling and rendering process. The hooks may be 
+  specified in either the constructor, or the compile() method.
+- As of `2.0` it's possible to create `Template` sub-classes and specify
+  one of those when constructing the `Engine` instance.
 
 ## Template Syntax
 
@@ -52,6 +72,23 @@ else depends upon:
 Hello {{user.name}}, you are scheduled for work {{it.day || 'today'}}.
 ```
 
+## More Examples
+
+See the tests in the `test` folder for more examples of both the
+API and the available template syntax.
+
+## A bit more the whole _no files_ thing...
+
+So I've found a few template engines written in different languages that
+are entirely unusable in many contexts as they _require_ access to the
+file-system to load templates. Which might work for say PHP where it's
+always server-side and thus has explicit access to the file-system,
+but doesn't work in say client-side Javascript.
+
+Well this engine intentionally doesn't have any concept of _files_ at
+all, and depends on the code using it to perform any loading of the
+template text from whatever sources may be applicable.
+
 ## Official URLs
 
 This library can be found in two places:
@@ -68,3 +105,7 @@ Timothy Totten <2010@totten.ca>
 [MIT](https://spdx.org/licenses/MIT.html)
 
 [filtering]: https://github.com/cure53/DOMPurify
+[Webpack]: https://webpack.js.org/
+[doT]: https://github.com/olado/doT
+[riot.js]: https://riot.js.org/
+[micro-templating]: https://johnresig.com/blog/javascript-micro-templating/

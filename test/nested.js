@@ -5,7 +5,7 @@ const t = require('@lumjs/tests').new({module, plan});
 const NoT = require('../lib');
 const ts = require('./inc/common');
 
-let nt = new NoT();
+let nt = new NoT.Engine();
 
 let tmpl = "Hello {{it.name}}, "
   + "{{ (it.age > 40) ? this.call('old', it) : this.call('young', it) }}";

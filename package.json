@@ -1,20 +1,21 @@
 {
   "name": "@lumjs/not",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "main": "lib/index.js",
   "exports":
   {
     ".": "./lib/index.js",
+    "./template": "./lib/template.js",
     "./package.json": "./package.json"
   },
   "dependencies": 
   {
-    "@lumjs/core": "^1.37.1"
+    "@lumjs/core": "^1.37 || ^2.0"
   },
   "devDependencies":
   {
-    "@lumjs/build": "^1.1.0",
-    "@lumjs/tests": "^2.0.0"
+    "@lumjs/build": "^1.1",
+    "@lumjs/tests": "^2.0"
   },
   "scripts":
   {

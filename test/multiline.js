@@ -6,7 +6,7 @@ const NoT = require('../lib');
 const ts = require('./inc/common');
 const demos = [];
 
-let nt = new NoT();
+let nt = new NoT.Engine();
 let data = 
 {
   users: ts.set_1.users.slice(3,5),
