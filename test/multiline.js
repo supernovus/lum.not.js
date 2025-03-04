@@ -19,7 +19,7 @@ ts.testset('ml_1', demos);
 for (const demo of demos)
 {
   nt.compile(demo);
-  t.is(nt.render(demo.id, data), demo.want, demo);
+  t.is(nt.render(demo.id, data), demo.want, demo.id);
 }
 
 t.done();

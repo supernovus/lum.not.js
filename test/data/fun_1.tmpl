@@ -1,0 +1,11 @@
+This is a story about some people.
+
+{% for (let user of it.users) { 
+let old;
+if (user.age < 0) old = 'immortal';
+else if (user.age > 30) old = 'older';
+else old = 'younger'; %}
+- {{user.name}} is a {{user.job}}, and is {{old}}.
+{% }; %}
+
+And that's all of them.

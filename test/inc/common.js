@@ -15,14 +15,18 @@ module.exports =
     return require(DATA_JS+name);
   },
 
-  testset(name, addTo)
+  testset(name, addTo, wants=['want'])
   {
     const demo = 
     {
       id: name,
       tmpl: fs.readFileSync(DATA_FS+name+'.tmpl', 'utf8'),
-      want: fs.readFileSync(DATA_FS+name+'.want', 'utf8'),
     };
+
+    for (const want of wants)
+    {
+      demo[want] = fs.readFileSync(DATA_FS+name+'.'+want, 'utf8');
+    }
   
     if (Array.isArray(addTo))
     {

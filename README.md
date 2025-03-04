@@ -25,34 +25,43 @@ untrusted end-users can interact with them!
   specified in either the constructor, or the compile() method.
 - As of `2.0` it's possible to create `Template` sub-classes and specify
   one of those when constructing the `Engine` instance.
+- As of `2.1` you can enable an optional feature that allows for more complex
+  JS snippets to be used in templates. It's obviously an even bigger potential 
+  source of problems, so it's disabled by default.
 
 ## Template Syntax
 
 The default syntax is pretty simple, and intentionally quite limited.
-It has only two types of blocks. 
+By default there are only two types of blocks (_var_ and _def_), with an 
+optional third type (_fun_) able to be enabled via options.
 
 By default there are only two variables in the context of the template
 blocks: `it` is the data object passed to `render()`, and `this` is the
 compiled template definition object. You can define more variables in
-the scope of the template context using _define blocks_.
+the scope of the template context using _define blocks_ (which internally
+build `let` statements in the compiled template function).
 
-There are no special blocks for conditional or repeatable sections.
-So `if` and `else` are nowhere to be seen in these templates; instead
-`test() ? trueValue : falseValue` or `it.var ?? 'default value'` are
-the way to do anything involving conditional text. 
+Template conditionals and repeatable fragments are handled differently
+than in most template engines. Without enabling _fun blocks_, `if` and `else`, 
+statements aren't able to be used. Simple conditionals may be done using
+`test() ? trueValue : falseValue` or `it.var ?? 'default value'` statements.
+Anything more advanced will likely require the use of _fun blocks_.
 
-There is a helper for working with iteration, but it requires defining
-the _item template_ separately from the _list template_.
+There is a built-in method for working with iteration. It requires defining
+the _item template_ separately from the _list template_. If you need more
+traditional `for` or `while` statements, you'll need to enable _fun blocks_, 
+and then pray your blocks don't have any syntax errors in them.
 
 ### Define Context Variables
 
-Defining context variables for common objects is handy, and easy to do:
+Defining context variables for common objects is handy, and easy to do via
+_def_ blocks, which all have the same syntax:
 
 ```
 {{ user = it.getUser() }}
 ```
 
-Basically, a define block starts with a valid identifier followed 
+Basically, a define block starts with a valid _identifier_ followed 
 by a single `=`, and then the value you are assigning as a standard
 JS expression, which has access to any of the current context variables.
 
@@ -63,14 +72,45 @@ you can take advantage of that here, like in this example:
 {{ me = it.currentUser, them = me.getFriends() }}
 ```
 
+or even using modern JS variable expansion:
+
+```
+{{ {me,myself,i} = it.selfNames, [us,them] = it.teams }}
+```
+
+Basically if it'd be allowed as part of a regular JS `let` statement,
+it _should_ be able to work here (YMMV).
+
 ### Variable Interpolation
 
-The foundation of any template engine, this is the basis from which all
-else depends upon:
+The foundation of any template engine, _var blocks_ are the basis from which 
+all else depends upon:
 
 ```
 Hello {{user.name}}, you are scheduled for work {{it.day || 'today'}}.
 ```
+
+### Raw Code Blocks
+
+If enabled via the `allowFun` option, _fun blocks_ are a way to use raw
+JS statements as a part of your templates. It's dangerous, and really easy
+to break things, so only enable these block if you know what you're doing.
+
+```
+{%
+if (it.list) {
+  for (let what of it.list) {
+%}
+<li>A wild {{what.name}} has appeared!</li>
+{%
+  } // for
+}   // if
+%}
+```
+
+Attempting to use the `{% %}` syntax without setting `{allowFun: true}` in
+the options will result in a `SyntaxError` being thrown when the engine
+tries to compile the template.
 
 ## More Examples
 
